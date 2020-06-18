@@ -1,5 +1,7 @@
 timer.Create("PP_WireOutputs", 1, 0, function()
     if WireLib then
+        local GetOwner = WireLib.GetOwner
+
         do -- Hijack Wiremod Entity and Array outputs and add a PP check
             TrigOut = TrigOut or WireLib.TriggerOutput
 
@@ -7,23 +9,25 @@ timer.Create("PP_WireOutputs", 1, 0, function()
                 local Type = type(Value)
 
                 if (Type == "Entity" or Type == "Vehicle") and IsValid(Value) then
-
-                    Value = Value:CPPICanTool(Ent:CPPIGetOwner()) and Value or nil
-
+                    if GetOwner(Value) and not Value:CPPICanTool(GetOwner(Ent)) then
+                        Value = nil
+                    end
                 elseif Type == "Player" then
-
-                    Value = Ent:CPPIGetOwner() == Value and Value or nil
-
+                    if GetOwner(Ent) ~= Value then
+                        Value = nil
+                    end
                 elseif Type == "table" then
-                    local Owner = Ent:CPPIGetOwner()
+                    local Owner = GetOwner(Ent)
 
                     for K, V in pairs(Value) do -- This makes me feel bad. I'm sorry. 
                         local Type = type(V)
 
                         if (Type == "Entity" or Type == "Vehicle") and not V:CPPICanTool(Owner) then
                             Value[K] = nil
-                        elseif Type == "Player" and Owner ~= V  then
-                            Value[K] = nil
+                        elseif Type == "Player" then
+                            if V:InVehicle() and GetOwner(V:GetVehicle()) ~= Owner or Owner ~= V  then
+                                Value[K] = nil
+                            end
                         end
                     end
                 end
@@ -51,7 +55,7 @@ timer.Create("PP_WireOutputs", 1, 0, function()
                     end
 
                     local Tgt = self.SelectedTargets[ch]
-                    return Tgt:CPPICanTool(self:CPPIGetOwner()) and Tgt:GetPos() or ORIGIN -- This is the override
+                    return Tgt:CPPICanTool(GetOwner(self)) and Tgt:GetPos() or ORIGIN -- This is the override
                 end
 
                 return sensor:GetPos()

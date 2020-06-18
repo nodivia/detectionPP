@@ -1,6 +1,7 @@
 -- Adding a serializer to E2 to require all entity references to require PP
 timer.Create("PP_Expression2", 1, 0, function()
     if WireLib then
+        local GetOwner = WireLib.GetOwner
         local Compiler = E2Lib.Compiler
 
         function Compiler:Evaluate(args, index)
@@ -23,9 +24,19 @@ timer.Create("PP_Expression2", 1, 0, function()
             local Type = type(rv1)
 
             if Type == "Entity" or Type == "Vehicle" then -- Players can only reference entities they have PP with
-                return rv1:CPPICanTool(self.entity:CPPIGetOwner()) and rv1 or nil
-            elseif Type == "Player" then -- Players can reference themselves
-                return self.entity:CPPIGetOwner() == rv1 and rv1 or nil
+                if not GetOwner(rv1) or rv1:CPPICanTool(GetOwner(self.entity)) then
+                    return rv1
+                else
+                    return nil
+                end
+            elseif Type == "Player" then -- Players can reference themselves and players in vehicles they own
+                if GetOwner(self.entity) == rv1 then
+                    return rv1
+                elseif rv1:InVehicle() and GetOwner(rv1:GetVehicle()) == GetOwner(self.entity) then
+                    return rv1
+                else
+                    return nil
+                end
             else
                 return rv1
             end
