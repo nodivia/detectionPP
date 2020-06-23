@@ -69,5 +69,7 @@ timer.Create("PP_WireOutputs", 1, 0, function()
         end
 
         timer.Remove("PP_WireOutputs")
+
+        print("Loaded Outputs Hijack")
     end
 end)

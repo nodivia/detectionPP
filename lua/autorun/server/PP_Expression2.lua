@@ -1,6 +1,6 @@
 -- Adding a serializer to E2 to require all entity references to require PP
 timer.Create("PP_Expression2", 1, 0, function()
-    if WireLib then
+    if E2Lib and wire_expression2_funcs then
         local GetOwner = WireLib.GetOwner
         local Compiler = E2Lib.Compiler
 
@@ -43,5 +43,7 @@ timer.Create("PP_Expression2", 1, 0, function()
         end)
 
         timer.Remove("PP_Expression2")
+
+        print("Loaded Expression2 Hijack")
     end
 end)
