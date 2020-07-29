@@ -43,7 +43,5 @@ timer.Create("PP_Expression2", 1, 0, function()
         end)
 
         timer.Remove("PP_Expression2")
-
-        print("Loaded Expression2 Hijack")
     end
 end)

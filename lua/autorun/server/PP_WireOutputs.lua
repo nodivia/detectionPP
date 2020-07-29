@@ -1,4 +1,5 @@
-timer.Create("PP_WireOutputs", 1, 0, function()
+-- Checking all wire entity/table/array outputs for entities
+timer.Create("PP_WireOutputs", 1, 0, function() -- Waiting for WireLib to be loaded before applying detours
     if WireLib then
         local GetOwner = WireLib.GetOwner
 
@@ -69,7 +70,5 @@ timer.Create("PP_WireOutputs", 1, 0, function()
         end
 
         timer.Remove("PP_WireOutputs")
-
-        print("Loaded Outputs Hijack")
     end
 end)

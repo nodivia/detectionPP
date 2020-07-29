@@ -1,4 +1,5 @@
-timer.Create("PP_WireOutputs", 1, 0, function()
+-- Making 
+timer.Create("PP_WireHolos", 1, 0, function()
     if WireLib then
         local function WireHologramsShowOwners()
             for _,ent in pairs( ents.FindByClass( "gmod_wire_hologram" ) ) do
@@ -27,8 +28,6 @@ timer.Create("PP_WireOutputs", 1, 0, function()
             end
         end )
 
-        timer.Remove("PP_WireOutputs")
-
-        print("Loaded Holograms Hijack")
+        timer.Remove("PP_WireHolos")
     end
 end)
