@@ -1,4 +1,4 @@
--- Making 
+-- Making wire_holograms_display_owners require admin
 timer.Create("PP_WireHolos", 1, 0, function()
     if WireLib then
         local function WireHologramsShowOwners()

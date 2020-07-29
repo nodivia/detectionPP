@@ -1,0 +1,9 @@
+{
+	"title"		:	"DetectionPP",
+	"type"		:	"tool",
+	"tags"		:	[ "build", "roleplay"],
+	"ignore"	:
+	[
+		"*.git*"
+	]
+}
