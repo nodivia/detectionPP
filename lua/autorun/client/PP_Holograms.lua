@@ -18,7 +18,7 @@ timer.Create("PP_WireHolos", 1, 0, function()
 
         local display_owners = false
         concommand.Add( "wire_holograms_display_owners", function(Ply)
-            if not Ply:IsAdmin() and not Ply:IsSuperAdmin() then return end
+            if not Ply:IsAdmin() then return end
 
             display_owners = not display_owners
             if display_owners then
